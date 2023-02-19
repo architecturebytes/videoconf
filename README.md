@@ -1,4 +1,4 @@
-# videoconf
+# Video Conference Application using AWS Chime SDK
 Creating a Video Conference Application using AWS Chime SDK.
 
 server/lambda/index.js
