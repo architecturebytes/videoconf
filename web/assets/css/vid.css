@@ -1,0 +1,19 @@
+
+      video {
+		border: 5px groove darkblue; 
+		padding: 5px;
+        width: 240px;
+        height: 160px;
+      }
+
+	  button {
+		background-color: #4CAF50;
+		border: none;
+		color: white;
+		padding: 5px 10px;
+		text-align: center;
+		text-decoration: none;
+		display: none;
+		font-size: 16px;
+		border-radius: 2px; 
+	}
