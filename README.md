@@ -21,7 +21,7 @@ server/lambda/index.js
 **HTML file** <br>
 web/index.html
 This is html file you need to host.<br>
-The website can be accessed by using <CloudFrontURL>/index.html
+The website can be accessed by using &lt;CloudFrontURL&gt;/index.html
 
 **Javascript Code** <br>
 web/assets/js/vid.js<br>
