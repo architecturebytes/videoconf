@@ -1,4 +1,4 @@
-const MEETING_SERVICE = "https://7j7z5e6e81.execute-api.us-east-1.amazonaws.com/bytes-meeting";
+const MEETING_SERVICE = "https://<APIGatewayURL>/<route>";
 
 var isMeetingHost = false;
 var meetingId = "";
