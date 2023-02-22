@@ -77,8 +77,8 @@ async function doMeeting() {
 		const data = await response.json();
 		
 		if (! data.hasOwnProperty('Info')) {
-			alert("Oops! There was a problem - the meeting might have ended!");
-			console.log("NOTE: Meeting was not Found");	
+			alert("Oops! The meeting might have ended!");
+			console.log("Meeting was not Found");	
 			return;
 		}
 
@@ -88,6 +88,10 @@ async function doMeeting() {
 		document.getElementById("meeting-Id").innerText = meetingId;
 		if (isMeetingHost) {
 			document.getElementById("meeting-link").innerText = window.location.href + "?meetingId=" + meetingId;
+		}
+		else
+		{
+			document.getElementById("meeting-link").innerText = window.location.href;
 		}
 
 		const configuration = new ChimeSDK.MeetingSessionConfiguration(
@@ -100,6 +104,7 @@ async function doMeeting() {
 			deviceController
 		);
 
+		// Initialize Audio Video
 		const audioInputs = await meetingSession.audioVideo.listAudioInputDevices();
 		const videoInputs = await meetingSession.audioVideo.listVideoInputDevices();
 
@@ -107,10 +112,13 @@ async function doMeeting() {
 		await meetingSession.audioVideo.startVideoInput(videoInputs[0].deviceId);
 
 		const observer = {
+			// Tile State changed, so let's examine it.
 			videoTileDidUpdate: (tileState) => {
+				// if no attendeeId bound to tile, ignore it return
 				if (!tileState.boundAttendeeId) {
 					return;
 				}
+				//There is an attendee Id against the tile, and it's a valid meeting session, then update tiles view
 				if (!(meetingSession === null)) {
 					updateTiles(meetingSession);
 				}
@@ -118,6 +126,7 @@ async function doMeeting() {
 		};
 
 		const eventObserver = {
+			// Check for events of interest for eg. Meeting End.
 			eventDidReceive(name, attributes) {
 				switch (name) {
 					case 'meetingEnded':
@@ -131,7 +140,7 @@ async function doMeeting() {
 		  }
 		}
 
-		// Add observers for the meeting.
+		// Add observers for the meeting session
 		meetingSession.audioVideo.addObserver(observer);
 		meetingSession.audioVideo.realtimeSubscribeToAttendeeIdPresence(attendeeObserver);
 		meetingSession.eventController.addObserver(eventObserver);
@@ -146,30 +155,38 @@ async function doMeeting() {
 	}
 }
 
-// Update Video Tiles on UI
+// Update Video Tiles on UI view
 function updateTiles(meetingSession) {
 	const tiles = meetingSession.audioVideo.getAllVideoTiles();
 	tiles.forEach(tile => {
 		let tileId = tile.tileState.tileId
-		var videoElement = document.getElementById("video-" + tileId);
-		if (!videoElement) {
+		var divElement = document.getElementById("div-" + tileId);
+		// If divElement not found.
+		if (!divElement) {
+			// Create divElement. Give it a unique id and name
 			divElement = document.createElement("div");
 			divElement.id = "div-" + + tileId;
 			divElement.setAttribute("name", "div-" + tile.tileState.boundAttendeeId);
 			divElement.style.display = "inline-block";
 			divElement.style.padding = "5px";
+
+			// Create videoElement. Give it a unique id
 			videoElement = document.createElement("video");
 			videoElement.id = "video-" + tileId;
 			videoElement.setAttribute("name", "video-" + tile.tileState.boundAttendeeId);
 			videoElement.controls = true;
-			p = document.createElement("p");
-			p.style.color="blueviolet";
-			//p.textContent = tile.tileState.boundExternalUserId;
+
+			// Create 'p' element for user name to display above video tile.
+			tileUserName = document.createElement("p");
+			tileUserName.style.color="blueviolet";
 			boundExtUserId = tile.tileState.boundExternalUserId
-			p.textContent = boundExtUserId.substring(0, boundExtUserId.indexOf("#"));
-			divElement.append(p);
+			tileUserName.textContent = boundExtUserId.substring(0, boundExtUserId.indexOf("#"));
+
+			// Append appropriately
+			divElement.append(tileUserName);
 			divElement.append(videoElement);
 			document.getElementById("video-list").append(divElement);
+
 			meetingSession.audioVideo.bindVideoElement(
 				tileId,
 				videoElement
@@ -185,12 +202,12 @@ function attendeeObserver(attendeeId, present, externalUserId, dropped, posInFra
 	//Get Attendee User Name from externalUserId where it was set while joining meeting
 	attendeeUserName = externalUserId.substring(0, externalUserId.indexOf("#"));
 
-	// If attendee present, add to attendees set.
+	// If attendee 'present' is true, add to attendees set.
 	if (present) {
 		attendees.add(attendeeUserName);
 	}
 	else {
-		// Attendee no longer present, remove the display div video tile
+		// Attendee no longer 'present', remove the attendee display div with video tile
 		const elements = document.getElementsByName("div-" + attendeeId);
 		elements[0].remove();
 
@@ -204,6 +221,7 @@ function attendeeObserver(attendeeId, present, externalUserId, dropped, posInFra
 	refreshAttendeesDisplay();
 };
 
+// Refresh attendee list in UI view
 function refreshAttendeesDisplay()
 {
 	//Create list of attendees from attendees set, and then display.
@@ -258,9 +276,9 @@ async function exitMeeting() {
 	}
 }
 
+// Reset 
 function cleanup()
 {
-	console.log("NOTE: cleanuP called!!!!");
 	meetingSession.deviceController.destroy();
 	window.meetingSession = null;
 	//if meeting host - don't preserve the meeting id.

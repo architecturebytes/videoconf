@@ -1,7 +1,6 @@
 const AWS = require("aws-sdk");
 
 const chime = new AWS.Chime();
-////const { v4: uuidv4 } = require("uuid"); 
 
 // Set the AWS SDK Chime endpoint. The global endpoint is https://service.chime.aws.amazon.com.
 chime.endpoint = new AWS.Endpoint("https://service.chime.aws.amazon.com");
@@ -24,14 +23,11 @@ function create_UUID(){
     return uuid;
 }
 
-console.log(create_UUID());
-
-
-//exports.join = async (event, context, callback) => {
-async function join(event) {
-    console.log("NOTE: entered join");
+// Create or join existing meeting
+async function doMeeting(event) {
+    
     const query = event.queryStringParameters;
-        console.log("NOTE: query " + query);
+        
     let meetingId = "";
     let meeting = null;
     let userName = "";
@@ -39,46 +35,47 @@ async function join(event) {
      const theBodyContent = JSON.parse(event.body);
      meetingId = theBodyContent.MEETING_ID;
      userName = theBodyContent.USERNAME;
-     console.log("NOTE: MEETING ID FOUND: " + meetingId);
+    
     if ((meetingId === "") || (meetingId === null) || (meetingId === "null")) {
-        ////new meeting
-        //meetingId = uuidv4();
-         meetingId = create_UUID();
+        // New meeting
+
+         meetingToken = create_UUID();
          console.log("NOTE: NEW MEETING");
         meeting = await chime
             .createMeeting({
-                ClientRequestToken: meetingId,
+                ClientRequestToken: meetingToken,
                 MediaRegion: "us-east-1",
-                ExternalMeetingId: meetingId,
+                ExternalMeetingId: meetingToken,
             })
             .promise();
     } else {
-        //join to old meeting
-        console.log("NOTE: EXISTING MEETING");
-        meetingId = query.meetingId;
-        meeting = await chime
-            .getMeeting({
+        // Join existing meeting
+        
+        // Fetch meeting details
+        try {
+             meetingId = query.meetingId;
+             meeting = await chime.getMeeting({
                 MeetingId: meetingId,
             })
             .promise();
+        } catch (e) {
+            if (e.code == "NotFound")
+            {
+                console.log("Meeting Not Found");
+            }
+            //console.log("ERROR while Getting Meeting Details " + JSON.stringify(e));
+            return json(200, "application/json", {}); //Meeting Id not found, return.
+        }
+       
     }
             
-    console.log("NOTE: MEETING Just before adding attendee: " + JSON.stringify(meeting) );
-    //We've initialized our meeting! Now let's add attendees.
+    // Add attendee to the meeting (new or existing)
     const attendee = await chime
         .createAttendee({
-            //ID of the meeting
             MeetingId: meeting.Meeting.MeetingId,
-
-            //User ID that we want to associate to
-            ////ExternalUserId: `${uuidv4().substring(0, 8)}#${query.clientId}`,
-            ////ExternalUserId: toString(Math.floor((Math.random() * 99000) + 10000)) + `#${query.clientId}`,
-            //ExternalUserId: `${create_UUID().substring(0, 8)}#${query.clientId}`,
             ExternalUserId: `${userName}#${query.clientId}`,
         })
         .promise();
-
-    console.log("NOTE: MEETING After adding attendee: " + JSON.stringify(attendee) );
 
     return json(200, "application/json", {
         Info: {
@@ -88,11 +85,9 @@ async function join(event) {
     });
 };
 
-
+// Delete attendee from the meeting
 async function deleteAttendee(event) {
     const body = JSON.parse(event.body);
-    console.log("NOTE deleteAttendee: Meeting ID Received: " + body.MEETING_ID);
-    console.log("NOTE deleteAttendee: Meeting ID Received: " + body.ATTENDEE_ID);
     const deleteRequest = await chime.deleteAttendee({
         MeetingId: body.MEETING_ID,
         AttendeeId: body.ATTENDEE_ID
@@ -101,8 +96,8 @@ async function deleteAttendee(event) {
 };
 
 
-
-async function end(event) {
+// Delete the meeting
+async function deleteMeeting(event) {
     const body = JSON.parse(event.body);
     console.log("NOTE end func: Meeting ID Received: " + body.MEETING_ID);
     const deleteRequest = await chime.deleteMeeting({
@@ -111,19 +106,11 @@ async function end(event) {
     return json(200, "application/json", {});
 };
 
-////const StaticFileHandler = require('serverless-aws-static-file-handler')
-
 exports.handler = async (event, context, callback) => {
-    ////const clientFilesPath = __dirname + "/html/";
-    ////const fileHandler = new StaticFileHandler(clientFilesPath)
-    ////return await fileHandler.get(event,context);
-    //// return json(200, "application/json", {});
-    //event.queryStringParameters = {};
-    console.log("NOTE EVENT RECEIVED: " + JSON.stringify(event));
     const bodyContent = JSON.parse(event.body);
     if (bodyContent.action == "DO_MEETING")
     {
-           return join(event);
+           return doMeeting(event);
     }
     else if (bodyContent.action == "DELETE_ATTENDEE")
     {
@@ -131,11 +118,12 @@ exports.handler = async (event, context, callback) => {
     }
     else if (bodyContent.action == "END_MEETING")
     {
-          return end(event);
+          return deleteMeeting(event);
     }
     else
     {
-            console.log("EVENT UNRECOGNIZED");
+            console.log("Event Unrecognized");
+            return json(200, "application/json", {});
     }
  
 }
