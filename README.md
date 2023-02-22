@@ -19,7 +19,7 @@ This will generate amazon-chime-sdk.min.js in build directory.
 server/lambda/index.js
 
 **HTML file** <br>
-web/index.html
+web/index.html<br>
 The website can be accessed by using &lt;CloudFrontURL&gt;/index.html
 
 **Javascript Code** <br>
