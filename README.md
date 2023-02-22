@@ -20,8 +20,9 @@ server/lambda/index.js
 
 **HTML file** <br>
 web/index.html
-This is html file you need to host.
+This is html file you need to host.<br>
+The website can be accessed by using <CloudFrontURL>/index.html
 
 **Javascript Code** <br>
-web/assets/js/vid.js
-
+web/assets/js/vid.js<br>
+Here you must set the MEETING_SERVICE constant to point to your API ( API Gateway > Lambda function)
