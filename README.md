@@ -1,5 +1,7 @@
 # Video Conference Application using AWS Chime SDK
 
+We are using plain Javascript without any frameworks like ReactJS etc.
+
 **Generate Amazon Chime SDK Javascript Client Library - single file** <br>
 
 git clone https://github.com/aws-samples/amazon-chime-sdk.git <br>
@@ -15,7 +17,6 @@ This will generate amazon-chime-sdk.min.js in build directory.
 
 **Lambda function** <br>
 server/lambda/index.js
-This is a Lambda function you need to create in AWS.
 
 **HTML file** <br>
 web/index.html
