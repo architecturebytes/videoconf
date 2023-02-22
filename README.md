@@ -2,13 +2,13 @@
 
 **Generate Amazon Chime SDK Javascript Client Library - single file** <br>
 
-git clone https://github.com/aws-samples/amazon-chime-sdk.git
+git clone https://github.com/aws-samples/amazon-chime-sdk.git <br>
 cd amazon-chime-sdk/utils/singlejs
 
-Here make sure that src/index.js looks like this (update it if necessary):
+Here make sure that src/index.js looks like this (update it if necessary): <br>
 export * as default from 'amazon-chime-sdk-js';
 
-npm install
+npm install <br>
 npm run bundle
 
 This will generate amazon-chime-sdk.min.js in build directory.
