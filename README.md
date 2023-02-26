@@ -1,4 +1,4 @@
-**Video Conference Application using AWS Chime SDK**
+<h1>Video Conference Application using AWS Chime SDK</h1>
 
 Ref Video: Build Video Chat Application <br>
 https://www.youtube.com/watch?v=nydDw4u6hsU 
