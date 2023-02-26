@@ -1,5 +1,8 @@
 # Video Conference Application using AWS Chime SDK
 
+Ref Video: Build Video Chat Application <br>
+https://www.youtube.com/watch?v=nydDw4u6hsU 
+
 We are using plain Javascript without any frameworks like ReactJS etc.
 
 **Generate Amazon Chime SDK Javascript Client Library - single file** <br>
