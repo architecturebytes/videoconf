@@ -42,5 +42,6 @@ https://meetings-chime.us-east-1.amazonaws.com
 
 Complete list of endpoints available here:<br>
 https://docs.aws.amazon.com/general/latest/gr/chime-sdk.html <br>
-Announcement:<br>
+Ref:<br>
+https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html
 https://github.com/aws/amazon-chime-sdk-js/issues/2697
