@@ -2,8 +2,14 @@ const AWS = require("aws-sdk");
 
 const chime = new AWS.Chime();
 
-// Set the AWS SDK Chime endpoint. The global endpoint is https://service.chime.aws.amazon.com.
-chime.endpoint = new AWS.Endpoint("https://service.chime.aws.amazon.com");
+// Set the AWS SDK Chime endpoint. T
+
+//Deprecated global endpoint: https://service.chime.aws.amazon.com.
+//chime.endpoint = new AWS.Endpoint("https://service.chime.aws.amazon.com");
+
+//Use this new regional endpoint. https://meetings-chime.<region>.amazonaws.com"
+//Replace region as needed. Using 'us-east-1' in this example.
+chime.endpoint = new AWS.Endpoint("https://meetings-chime.us-east-1.amazonaws.com");
 
 const json = (statusCode, contentType, body) => {
     return {
