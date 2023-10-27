@@ -29,6 +29,31 @@ The website can be accessed by using &lt;CloudFrontURL&gt;/index.html
 web/assets/js/vid.js<br>
 Here you must set the MEETING_SERVICE constant to point to your API ( API Gateway > Lambda function)
 
+**How to create an API (Gateway)**
+
+_Create API_ <br>
+In AWS Console > API Gateway > Create API > Choose API Type > HTTP API > Build > <br>
+Provide API Name 'byte-meeting' > Configure Routes Hit Next > Configure Stages Hit Next > Review n Create 
+
+_Configure Routes_ <br>
+Select Routes on left menu > Create on right pane > Method ANY Route /bytes-meeting  > <br>
+Attach Integration > Create and Attach Integration > <br>
+Choose Integration Target Integration Type from dropdown : Lambda function , Choose AWS Region , Select 'bytes-meeting' lambda function ARN <br>
+Make sure "Grant API Gateway permission to invoke your Lambda function" is checked Hit Create 
+
+_Enable CORS (Optional)_ <br>
+Select CORS on left menu > Hit Configure button on right 	<br>
+Add * against Access-Control-Allow-Origin hit Add <br>
+Add * against Access-Control-Allow-Headers hit Add <br>
+Choose * against Access-Control-Allow-Methods hit Add <br>
+Leave everything else as default <br>
+Save 
+
+_Deploy API_ <br>
+Select Deploy menu on left > Select Stages > Select your stage $default , Check if under Attached Deployment: Automatic Deployment is Enabled. <br>
+If not you must hit the Deploy button at top right to deploy your API 
+
+
 **NOTE: Amazon Chime SDK Endpoint has changed!** <br>
 The endpoint is used in the Lambda function. <br>
 
