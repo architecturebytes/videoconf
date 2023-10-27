@@ -38,7 +38,8 @@ Provide API Name 'byte-meeting' > Configure Routes Hit Next > Configure Stages H
 _Configure Routes_ <br>
 Select Routes on left menu > Create on right pane > Method ANY Route /bytes-meeting  > <br>
 Attach Integration > Create and Attach Integration > <br>
-Choose Integration Target Integration Type from dropdown : Lambda function , Choose AWS Region , Select 'bytes-meeting' lambda function ARN <br>
+Choose Integration Target Integration Type from dropdown : Lambda function , Choose AWS Region , <br>
+Select 'bytes-meeting' lambda function ARN <br>
 Make sure "Grant API Gateway permission to invoke your Lambda function" is checked Hit Create 
 
 _Enable CORS (Optional)_ <br>
@@ -50,7 +51,8 @@ Leave everything else as default <br>
 Save 
 
 _Deploy API_ <br>
-Select Deploy menu on left > Select Stages > Select your stage $default , Check if under Attached Deployment: Automatic Deployment is Enabled. <br>
+Select Deploy menu on left > Select Stages > Select your stage $default <br>
+Check if under Attached Deployment: Automatic Deployment is Enabled. <br>
 If not you must hit the Deploy button at top right to deploy your API 
 
 
