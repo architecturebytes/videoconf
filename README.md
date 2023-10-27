@@ -52,7 +52,7 @@ Save
 
 _Deploy API_ <br>
 Select Deploy menu on left > Select Stages > Select your stage $default <br>
-Check if under Attached Deployment: Automatic Deployment is Enabled. <br>
+Check if under Attached Deployment: Automatic Deployment is Enabled. If yes, you are all set. <br>
 If not you must hit the Deploy button at top right to deploy your API 
 
 
