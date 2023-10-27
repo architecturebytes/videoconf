@@ -28,3 +28,19 @@ The website can be accessed by using &lt;CloudFrontURL&gt;/index.html
 **Javascript Code** <br>
 web/assets/js/vid.js<br>
 Here you must set the MEETING_SERVICE constant to point to your API ( API Gateway > Lambda function)
+
+**NOTE: Amazon Chime SDK Endpoint has changed!**
+The endpoint is used in the Lambda function. 
+
+Earlier there was a global endpoint (which is being deprecated): 
+https://service.chime.aws.amazon.com 
+
+New regional endpoints are of the form (new customers must use these): 
+https://meetings-chime.<region>.amazonaws.com 
+For eg:
+https://meetings-chime.us-east-1.amazonaws.com 
+
+Complete list of endpoints available here:
+https://docs.aws.amazon.com/general/latest/gr/chime-sdk.html 
+Announcement:
+https://github.com/aws/amazon-chime-sdk-js/issues/2697
