@@ -33,14 +33,14 @@ Here you must set the MEETING_SERVICE constant to point to your API ( API Gatewa
 
 _Create API_ <br>
 In AWS Console > API Gateway > Create API > Choose API Type > HTTP API > Build > <br>
-Provide API Name 'byte-meeting' > Configure Routes Hit Next > Configure Stages Hit Next > Review n Create 
+Provide API Name 'byte-meeting' > For 'Configure Routes' Hit Next > For 'Configure Stages' Hit Next > Review & Create 
 
 _Configure Routes_ <br>
-Select Routes on left menu > Create on right pane > Method ANY Route /bytes-meeting  > <br>
-Attach Integration > Create and Attach Integration > <br>
-Choose Integration Target Integration Type from dropdown : Lambda function , Choose AWS Region , <br>
+Select Routes on left menu > Hit 'Create' on right pane > Choose Method 'ANY' Route '/bytes-meeting' > Create > <br>
+Select the newly created route/method > Select 'Attach Integration' > 'Create and Attach Integration' <br>
+Choose Integration Target - Integration Type from dropdown : Lambda function , Choose AWS Region , <br>
 Select 'bytes-meeting' lambda function ARN <br>
-Make sure "Grant API Gateway permission to invoke your Lambda function" is checked Hit Create 
+Make sure "Grant API Gateway permission to invoke your Lambda function" is checked > Hit Create 
 
 _Enable CORS (Optional)_ <br>
 Select CORS on left menu > Hit Configure button on right 	<br>
