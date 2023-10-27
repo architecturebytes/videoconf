@@ -36,7 +36,7 @@ Earlier there was a global endpoint (which is being deprecated): <br>
 https://service.chime.aws.amazon.com 
 
 New regional endpoints are of the form (new customers must use these): <br>
-https://meetings-chime.&lt;region&gt;.amazonaws.com <br>
+https://meetings-chime.[RegionHere].amazonaws.com <br>
 For eg:<br>
 https://meetings-chime.us-east-1.amazonaws.com 
 
