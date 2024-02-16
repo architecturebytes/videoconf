@@ -19,7 +19,8 @@ npm run bundle
 This will generate amazon-chime-sdk.min.js in build directory.
 
 **Lambda function** <br>
-server/lambda/index.js
+server/lambda/index.js<br>
+Make sure that the **chime.endpoint** region is correct here.
 
 **HTML file** <br>
 web/index.html<br>
@@ -27,7 +28,7 @@ The website can be accessed by using &lt;CloudFrontURL&gt;/index.html
 
 **Javascript Code** <br>
 web/assets/js/vid.js<br>
-Here you must set the MEETING_SERVICE constant to point to your API ( API Gateway > Lambda function)
+Here you must set the **MEETING_SERVICE** constant to point to your API ( API Gateway > Lambda function)
 
 **How to create an API (Gateway)**
 
